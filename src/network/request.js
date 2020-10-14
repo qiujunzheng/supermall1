@@ -1,7 +1,6 @@
 import axios from 'axios'
 export function request(config) {
   const instance = new axios.create({
-    baseURL:'http://123.207.32.32:8000/api/h8',
     // baseURL:'http://adi-v3.dev',
     timeout:5000
   });
