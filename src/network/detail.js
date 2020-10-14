@@ -9,8 +9,7 @@ export function getDetail(iid) {
   })
 }
 
-//暴露一个类给详情页展示数据用
-
+//暴露商品信息类
 export class Goods {
   constructor(itemInfo, columns, services){
     this.title = itemInfo.title //标题
@@ -22,5 +21,18 @@ export class Goods {
     this.columns = columns //销量 收藏 快递信息
     this.services= services //其他服务信息
     this.realPrice = itemInfo.lowNowPrice
+  }
+}
+
+//暴露商店信息类
+export class Shop{
+  constructor(shopInfo){
+    this.name=shopInfo.name
+    this.shopLogo=shopInfo.shopLogo
+    this.shopUrl=shopInfo.shopUrl
+    this.score=shopInfo.score //打分
+    this.cSells =shopInfo.cSells//总销量
+    this.cGoods = shopInfo.cGoods //全部宝贝数量
+
   }
 }

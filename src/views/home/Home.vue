@@ -42,9 +42,8 @@
   import BackTop from "components/content/backTop/BackTop";
 
   import {getHomeGoods, getHomeMultidata} from "../../network/home";
-
-  import emitter from "../../common/emitter";
   import {debounce} from "../../common/utils";
+  import emitter from "../../common/emitter";
 
   export default {
     name: "Home",

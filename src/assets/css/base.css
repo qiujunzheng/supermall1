@@ -5,6 +5,10 @@
   --color-high-text: #ff5777;
   --color-text-white:#f6f6f6;
   --color-text-light: #9b999d;
+
+  --color-common-red: #de1049;
+  --color-common-green: #146b00;
+  --color-light-grey: #ededed;
   /*tint背景颜色1*/
   --color-tint: #ff8198;
   --color-background: #fff;

@@ -6,51 +6,22 @@
       <detail-swiper :topImgs="topImgs"/>
       <detail-base-info :goods="goods"/>
       <detail-shop-info :shop="shop"/>
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-        <li>6</li>
-        <li>7</li>
-        <li>8</li>
-        <li>9</li>
-        <li>10</li>
-        <li>11</li>
-        <li>12</li>
-        <li>13</li>
-        <li>14</li>
-        <li>15</li>
-        <li>16</li>
-        <li>17</li>
-        <li>18</li>
-        <li>19</li>
-        <li>20</li>
-        <li>21</li>
-        <li>22</li>
-        <li>23</li>
-        <li>24</li>
-        <li>25</li>
-        <li>26</li>
-        <li>27</li>
-        <li>28</li>
-        <li>29</li>
-        <li>30</li>
-      </ul>
     </scroll>
   </div>
 </template>
 
 <script>
+  import Scroll from "components/common/Scroll/Scroll";
+
   import DetailNa from "./childComps/DetailNa";
   import DetailSwiper from "./childComps/DetailSwiper";
   import DetailBaseInfo from "./childComps/DetailBaseInfo";
   import DetailShopInfo from "./childComps/DetailShopInfo";
 
-  import Scroll from "components/common/Scroll/Scroll";
+  import emitter from "../../common/emitter";
+  import {debounce} from "../../common/utils";
 
-  import {getDetail, Goods} from 'network/detail'
+  import {getDetail, Goods, Shop} from 'network/detail'
 
   export default {
     name: "Detail",
@@ -59,11 +30,11 @@
         iid: null,
         topImgs: [],
         goods: {},//商品信息
-        shop:{},//商家信息
+        shop: {},//商家信息
       }
     },
     components: {
-      DetailNa, DetailSwiper, DetailBaseInfo,DetailShopInfo,
+      DetailNa, DetailSwiper, DetailBaseInfo, DetailShopInfo,
       Scroll,
     },
     created() {
@@ -76,9 +47,18 @@
         this.topImgs = data.itemInfo.topImages;
         //获取商品信息
         this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
-        console.log(this.goods);
+        //获取商家信息
+        this.shop = new Shop(data.shopInfo)
       })
-    }
+    },
+    mounted(){
+      //监听图片加载完成
+      const refresh = debounce(this.$refs.scroll.refresh, 50)
+      emitter.on("detailImgLoad", () => {
+        console.log(1);
+        refresh()
+      })
+    },
   }
 </script>
 
@@ -87,14 +67,16 @@
     position: relative;
     z-index: 9;
     background-color: #fff;
+    height: 100vh;
   }
-  .detail-na{
+
+  .detail-na {
     background-color: #fff;
     z-index: 9;
     position: relative;
   }
 
   #detail .scroll {
-    height: 300px;
+    height: calc(100% - 44px)
   }
 </style>

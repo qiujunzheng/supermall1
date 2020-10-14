@@ -86,11 +86,12 @@
     color: var(--color-text-light);
   }
 
-  .base-info-bottom {
+  #detailBaseInfo .base-info-bottom {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
     padding-bottom: 20px;
+    margin-top: 30px;
   }
 
   .services img {

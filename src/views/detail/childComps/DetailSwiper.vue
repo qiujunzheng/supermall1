@@ -2,7 +2,7 @@
   <div class="detail-swiper">
     <my-swiper class="de-swiper" ref="mySwiper" :options="swiperOption">
       <swiper-item v-for="item in topImgs">
-          <img :src="item" alt="">
+          <img :src="item" alt="" @load="imageLoad">
       </swiper-item>
     </my-swiper>
   </div>
@@ -10,6 +10,8 @@
 
 <script>
   import {MySwiper, SwiperItem} from "components/common/swiper"
+
+  import emitter from "common/emitter";
 
   import 'swiper/swiper-bundle.css'
 
@@ -29,6 +31,11 @@
         default() {
           return []
         }
+      }
+    },
+    methods:{
+      imageLoad(){
+        emitter.emit('detailImgLoad')
       }
     },
 
