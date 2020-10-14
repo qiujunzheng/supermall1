@@ -101,8 +101,10 @@
   }
   .enter-shop{
     text-align: center;
-    height: 44px;
-    line-height: 44px;
+    height: 34px;
+    line-height: 34px;
+    width: 40%;
+    margin: 20px auto;
     background-color: var(--color-light-grey);
   }
 </style>

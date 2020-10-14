@@ -2,26 +2,31 @@
   <div id="detail">
     <detail-na class="detail-na"></detail-na>
     <scroll class="scroll" ref="scroll"
-            :pull-up-load="true">
-      <detail-swiper :topImgs="topImgs"/>
+            :pull-up-load="true"
+            :probe-type="3"
+            @scroll="scroll">
+      <detail-swiper :topImgs="topImgs"
+                     @detailImgLoad="detailImgLoad"/>
       <detail-base-info :goods="goods"/>
       <detail-shop-info :shop="shop"/>
+      <detail-goods-info :detailInfo="detailInfo"
+                         @goodsImgLoad="goodsImgLoad"></detail-goods-info>
     </scroll>
+    <back-top @click.native="backClick" v-show="backTopShow"></back-top>
   </div>
 </template>
 
 <script>
   import Scroll from "components/common/Scroll/Scroll";
+  import BackTop from "components/content/backTop/BackTop";
 
   import DetailNa from "./childComps/DetailNa";
   import DetailSwiper from "./childComps/DetailSwiper";
   import DetailBaseInfo from "./childComps/DetailBaseInfo";
   import DetailShopInfo from "./childComps/DetailShopInfo";
+  import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 
-  import emitter from "../../common/emitter";
-  import {debounce} from "../../common/utils";
-
-  import {getDetail, Goods, Shop} from 'network/detail'
+  import {DetailInfo, getDetail, Goods, Shop} from 'network/detail'
 
   export default {
     name: "Detail",
@@ -31,9 +36,13 @@
         topImgs: [],
         goods: {},//商品信息
         shop: {},//商家信息
+        detailInfo: {},//详情数据
+        backTopShow:false,
       }
     },
     components: {
+      BackTop,
+      DetailGoodsInfo,
       DetailNa, DetailSwiper, DetailBaseInfo, DetailShopInfo,
       Scroll,
     },
@@ -49,16 +58,30 @@
         this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
         //获取商家信息
         this.shop = new Shop(data.shopInfo)
+        //获取商品详情数据
+        this.detailInfo = new DetailInfo(data.detailInfo)
       })
     },
-    mounted(){
-      //监听图片加载完成
-      const refresh = debounce(this.$refs.scroll.refresh, 50)
-      emitter.on("detailImgLoad", () => {
-        console.log(1);
-        refresh()
-      })
+    methods: {
+      detailImgLoad() {
+        //监听轮播图加载完成，刷新scroll content高度
+        this.$refs.scroll.refresh()
+      },
+      goodsImgLoad(){
+        this.$refs.scroll.refresh()
+      },
+      backClick(){
+        this.$refs.scroll.scrollTo(0,0,500)
+      },
+      scroll(pos){
+        if (pos.y < -1000 && !this.backTopShow) {
+          this.backTopShow = true
+        } else if (pos.y > -1000 && this.backTopShow) {
+          this.backTopShow = false
+        }
+      }
     },
+
   }
 </script>
 

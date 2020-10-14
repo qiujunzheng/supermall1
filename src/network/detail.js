@@ -33,6 +33,14 @@ export class Shop{
     this.score=shopInfo.score //打分
     this.cSells =shopInfo.cSells//总销量
     this.cGoods = shopInfo.cGoods //全部宝贝数量
+  }
+}
 
+//暴露商品相信信息，给组件 DetailGoodsInfo使用
+export class DetailInfo{
+  constructor(detailInfo){
+    this.desc = detailInfo.desc;
+    this.imgKey = detailInfo.detailImage[0].key;
+    this.imgs = detailInfo.detailImage[0].list
   }
 }

@@ -26,7 +26,8 @@
       ></tab-control>
       <goods-list :goods="goodsList"></goods-list>
     </scroll>
-    <back-top @click.native="backClick" v-show="backTopShow"></back-top>
+    <back-top @click.native="backClick"
+              v-show="backTopShow"></back-top>
   </div>
 </template>
 

@@ -11,8 +11,6 @@
 <script>
   import {MySwiper, SwiperItem} from "components/common/swiper"
 
-  import emitter from "common/emitter";
-
   import 'swiper/swiper-bundle.css'
 
   export default {
@@ -22,7 +20,8 @@
     },
     data() {
       return {
-        swiperOption: {}
+        swiperOption: {},
+        isImgLoad:false,
       }
     },
     props: {
@@ -35,7 +34,10 @@
     },
     methods:{
       imageLoad(){
-        emitter.emit('detailImgLoad')
+        if (!this.isImgLoad){
+          this.$emit('detailImgLoad')
+          this.isImgLoad = true
+        }
       }
     },
 
